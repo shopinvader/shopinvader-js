@@ -72,7 +72,7 @@ export class ErpFetch {
     }
     const request: Function = this._fetch
     const url: string = new URL(resource, this.baseUrl).href
-    return request(url, init).then((response: any) => {
+    return request(url, init).then(async (response: any) => {
       if (response?.ok) {
         if (responseType === 'blob') {
           return response.blob()
@@ -87,7 +87,7 @@ export class ErpFetch {
         }
       } else {
         if(response.status === 400) {
-          const message = response?.json()
+          const message = await response?.json()
             .then((data: any) => data?.detail || data?.message || response.statusText)
             .catch(() => response.statusText)
           throw new Error(message)
